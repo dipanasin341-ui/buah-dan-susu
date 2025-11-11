@@ -4,7 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Buah dan Susu 🍎🥛</title>
+
+  <!-- Telegram WebApp -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <!-- Monetag SDK -->
+  <script src='//libtl.com/sdk.js' data-zone='10174669' data-sdk='show_10174669'></script>
+
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -56,18 +62,40 @@
       cursor: pointer;
       margin-top: 15px;
     }
+
+    button:hover {
+      background: #e65c00;
+    }
+
+    .note {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #555;
+      max-width: 350px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.4;
+    }
   </style>
-  <script src='//libtl.com/sdk.js' data-zone='10174669' data-sdk='show_10174669'></script>
 </head>
 <body>
   <h1>🍎 Buah & Susu 🥛</h1>
-  <p>Halo, <span id="username">Teman</span>! Selamat datang selamat menikmati hidangan buah dan susu</p>
+  <p>Halo, <span id="username">Teman</span>! Selamat menikmati hidangan buah dan susu segar setiap hari.</p>
   <p>Klik video di bawah untuk menonton:</p>
 
   <div class="videos" id="videos">
     <p>Memuat daftar video...</p>
   </div>
 
+  <!-- Tombol untuk menampilkan iklan -->
+  <button onclick="tampilIklan()">🎬 Tonton Iklan sebentar</button>
+
+  <!-- Keterangan di bawah tombol -->
+  <p class="note">
+    Dengan menonton iklan ini selama 15 detik, nanti akan muncul tanda x untuk close iklan, Anda telah membantu kami tetap menampilkan video secara gratis. 🍓🙏
+  </p>
+
+  <!-- Tombol opsional kirim data ke bot -->
   <button onclick="sendData()">Kirim Pesan ke Bot</button>
 
   <script>
@@ -102,13 +130,15 @@
     function sendData() {
       tg.sendData("Pengguna melihat daftar video Buah & Susu");
     }
+
+    // tampilkan iklan Monetag hanya saat tombol ditekan
+    function tampilIklan() {
+      show_10174669().then(() => {
+        alert('Terima kasih sudah menonton iklan!');
+      }).catch(err => {
+        console.error('Iklan gagal dimuat:', err);
+      });
+    }
   </script>
-  <script>
-  window.onload = () => {
-    show_10174669().then(() => {
-      alert('Terima kasih sudah menonton iklan!');
-    });
-  };
-</script>
 </body>
 </html>
