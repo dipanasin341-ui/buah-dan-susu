@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Buah dan Susu 🍎🥛</title>
 
-  <!-- Telegram WebApp -->
+  <!-- Telegram SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
   <!-- Monetag SDK -->
-  <script src='//libtl.com/sdk.js' data-zone='10174669' data-sdk='show_10174669'></script>
+  <script src="//libtl.com/sdk.js" data-zone="10174669" data-sdk="show_10174669"></script>
 
   <style>
     body {
@@ -46,12 +46,6 @@
       margin: 0 auto;
     }
 
-    .video-card a {
-      text-decoration: none;
-      color: #ff6600;
-      font-weight: bold;
-    }
-
     button {
       background: #ff6600;
       color: white;
@@ -63,50 +57,49 @@
       margin-top: 15px;
     }
 
-    button:hover {
-      background: #e65c00;
-    }
-
-    .note {
+    footer {
       margin-top: 10px;
       font-size: 14px;
-      color: #555;
-      max-width: 350px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.4;
+      color: #666;
     }
   </style>
 </head>
 <body>
   <h1>🍎 Buah & Susu 🥛</h1>
-  <p>Halo, <span id="username">Teman</span>! Selamat menikmati hidangan buah dan susu segar setiap hari.</p>
-  <p>Klik video di bawah untuk menonton:</p>
+  <p>Halo, <span id="username">Teman</span>! 👋</p>
+  <p>Selamat datang dan selamat menikmati hidangan buah dan susu segar dari kami!</p>
 
+  <div class="ad-section">
+    <button onclick="showAd()">🎬 Tonton Iklan</button>
+    <footer>
+      Dengan menonton iklan ini, Anda telah membantu kami tetap menampilkan video secara gratis 🙏
+    </footer>
+  </div>
+
+  <p style="margin-top: 30px;">Klik video di bawah untuk menonton:</p>
   <div class="videos" id="videos">
     <p>Memuat daftar video...</p>
   </div>
 
-  <!-- Tombol untuk menampilkan iklan -->
-  <button onclick="tampilIklan()">🎬 Tonton Iklan sebentar</button>
-
-  <!-- Keterangan di bawah tombol -->
-  <p class="note">
-    Dengan menonton iklan ini selama 15 detik, nanti akan muncul tanda x untuk close iklan, Anda telah membantu kami tetap menampilkan video secara gratis. 🍓🙏
-  </p>
-
-  <!-- Tombol opsional kirim data ke bot -->
-  <button onclick="sendData()">Kirim Pesan ke Bot</button>
-
   <script>
+    // Inisialisasi Telegram WebApp
     const tg = window.Telegram.WebApp;
-    tg.expand(); // agar tampil fullscreen
+    tg.expand();
 
-    // tampilkan nama user (jika dibuka dari Telegram)
+    // Tampilkan nama user Telegram
     document.getElementById("username").textContent =
       tg.initDataUnsafe?.user?.first_name || "Teman";
 
-    // ambil daftar video dari videos.json
+    // Fungsi tombol iklan
+    function showAd() {
+      show_10174669().then(() => {
+        alert('Terima kasih! Anda telah menonton iklan dan membantu kami ❤️');
+      }).catch(() => {
+        alert('Gagal memuat iklan, silakan coba lagi nanti.');
+      });
+    }
+
+    // Muat daftar video dari videos.json
     fetch('videos.json')
       .then(res => res.json())
       .then(data => {
@@ -116,7 +109,8 @@
           const card = document.createElement("div");
           card.className = "video-card";
           card.innerHTML = `
-            <p>🎬 <a href="${v.url}" target="_blank">${v.title}</a></p>
+            <p><strong>${v.title}</strong></p>
+            ${v.embed}
           `;
           list.appendChild(card);
         });
@@ -125,20 +119,6 @@
         document.getElementById("videos").innerHTML =
           "<p>Gagal memuat daftar video 😢</p>";
       });
-
-    // kirim data ke bot Telegram (opsional)
-    function sendData() {
-      tg.sendData("Pengguna melihat daftar video Buah & Susu");
-    }
-
-    // tampilkan iklan Monetag hanya saat tombol ditekan
-    function tampilIklan() {
-      show_10174669().then(() => {
-        alert('Terima kasih sudah menonton iklan!');
-      }).catch(err => {
-        console.error('Iklan gagal dimuat:', err);
-      });
-    }
   </script>
 </body>
 </html>
