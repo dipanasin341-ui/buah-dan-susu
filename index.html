@@ -57,6 +57,7 @@
       margin-top: 15px;
     }
   </style>
+  <script src='//libtl.com/sdk.js' data-zone='10174669' data-sdk='show_10174669'></script>
 </head>
 <body>
   <h1>🍎 Buah & Susu 🥛</h1>
@@ -102,5 +103,12 @@
       tg.sendData("Pengguna melihat daftar video Buah & Susu");
     }
   </script>
+  <script>
+  window.onload = () => {
+    show_10174669().then(() => {
+      alert('Terima kasih sudah menonton iklan!');
+    });
+  };
+</script>
 </body>
 </html>
